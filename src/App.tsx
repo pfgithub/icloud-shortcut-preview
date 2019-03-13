@@ -28,11 +28,14 @@ class App extends Component<{}, {data: any | undefined, loading: boolean}> {
 	constructor(props: Readonly<{}>) {
 		super(props);
 		this.state = {data: undefined, loading: true};
-
+	}
+	componentDidMount() {
 		this.setState({loading: true});
 		const urlParams = new URLSearchParams(window.location.search);
+		console.log("urlparams");
 		const shortcut = urlParams.get("shortcut");
 		if(!shortcut) {
+			console.log("!shortcut");
 			this.setState({loading: false});
 			return;
 		}
@@ -64,26 +67,37 @@ class App extends Component<{}, {data: any | undefined, loading: boolean}> {
 		}
 	}
 	render() {
-		let preview;
-		if(this.state.data) {preview = <ShortcutPreview data={this.state.data} />;}
-		else if(this.state.loading) {preview = <div>Loading...</div>;}
-		else{preview = <div>No shortcut selected.</div>;}
-		return (
-			<div className="App">
-				<h1>Preview of shortcut</h1>
-				{preview}
-				<Dropzone onDrop={this.onDrop.bind(this)}>
-					{({getRootProps, getInputProps}) => (
-						<section>
-							<div {...getRootProps()}>
+		if(this.state.data) {
+			return <div className="App">
+				<ShortcutPreview data={this.state.data} />
+			</div>;
+		}
+		else if(this.state.loading) {
+			return <div className="App">
+				<div>Loading...</div>
+			</div>;
+		}
+		return <div className="App">
+			<div className="fullCenter">
+				<div className="split">
+					<Dropzone onDrop={this.onDrop.bind(this)}>
+						{({getRootProps, getInputProps}) => (
+							<div className="item fullsize" {...getRootProps()}>
+								<div className="fileupload">
 								<input {...getInputProps()} />
-								<p>Click to choose .shortcut file</p>
+								<p>Choose .shortcut file</p>
+								</div>
 							</div>
-						</section>
-					)}
-				</Dropzone>
+						)}
+					</Dropzone>
+					<div className="item">or</div>
+					<div className="item fullsize">
+						<p>Enter iCloud URL</p>
+						<input type="text" />
+					</div>
+				</div>
 			</div>
-		);
+		</div>;
 	}
 }
 
