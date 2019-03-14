@@ -39,7 +39,13 @@ class App extends Component<{}, {data: any | undefined, loading: boolean}> {
 			this.setState({loading: false});
 			return;
 		}
-		this.load(shortcut);
+		let shortcutID = shortcut.match(/[a-z0-9]{32}/);
+		if(!shortcutID){
+			console.log("!shortcutid");
+			this.setState({loading: false});
+			return;
+		}
+		this.load(shortcutID[0]);
 	}
 	onDrop(acceptedFiles: File[], _rejectedFiles: File[], _event: DropEvent) {
 		const reader = new FileReader();
@@ -92,8 +98,11 @@ class App extends Component<{}, {data: any | undefined, loading: boolean}> {
 					</Dropzone>
 					<div className="item">or</div>
 					<div className="item fullsize">
+					<form method="get">
 						<p>Enter iCloud URL</p>
-						<input type="text" />
+						<input type="text" name="shortcut" />
+						<button>go</button>
+						</form>
 					</div>
 				</div>
 			</div>
