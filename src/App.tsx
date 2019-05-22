@@ -4,6 +4,9 @@ import "./App.css";
 import * as bplistparser from "bplist-parser";
 import ShortcutPreview from "shortcut-preview";
 
+//@ts-ignore
+bplistparser.maxObjectCount = 9999999;
+
 import {Helmet} from "react-helmet";
 import Dropzone, {useDropzone, DropEvent} from "react-dropzone";
 
@@ -89,6 +92,8 @@ class App extends Component<{}, {data: any | undefined, loading: boolean, shortc
 				shortcutData: shortcutData
 			});
 		}catch(er) {
+			console.log(er);
+			alert(`Error while previewing shortcut: ${er.toString()}`);
 			this.setState({loading: false});
 		}
 	}
