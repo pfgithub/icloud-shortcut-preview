@@ -99,8 +99,10 @@ class App extends Component<{}, {data: any | undefined, loading: boolean, shortc
 	}
 	render() {
 		if(this.state.data) {
+			console.log("Shortcut Data:",this.state.data);
 			if(this.state.shortcutData) {
 				return <div className="App">
+
 					<Helmet>
 						<title>{this.state.shortcutData.name} - Preview</title>
 						<link rel="icon" type="image/png" href={this.state.shortcutData.icon} />
@@ -109,11 +111,19 @@ class App extends Component<{}, {data: any | undefined, loading: boolean, shortc
 						<img src={this.state.shortcutData.icon}/><h1 className="shortcutName">{this.state.shortcutData.name}</h1>
 						<p><a href={this.state.shortcutData.downloadURL}>Download .shortcut</a></p>
 						{this.state.shortcutID ? <p><a href={`https://www.icloud.com/shortcuts/${this.state.shortcutID}`}>View iCloud Page</a></p> : undefined}
+						{this.state.data[0].WFWorkflowMinimumClientVersion > 784 ? <p className="versionerror">
+							This shortcut is built for shortcuts version {this.state.data[0].WFWorkflowClientRelease} which Preview does not support. Some actions and parameters may be missing or broken.
+						</p> : null}
 					</header>
 					<ShortcutPreview data={this.state.data} />
 				</div>;
 			}
 			return <div className="App">
+				<header className="center">
+					{this.state.data[0].WFWorkflowMinumumClientVersion > 784 ? <p>
+						This shortcut is built for shortcuts version {this.state.data[0].WFWorkflowClientRelease} which Preview dose not support. Some actions and parameters may be missing or broken.
+					</p> : null}
+				</header>
 				<ShortcutPreview data={this.state.data} />
 			</div>;
 		}

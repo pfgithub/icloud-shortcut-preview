@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && rm -rf docs && mv build docs && echo \"preview.scpl.dev\" > docs/CNAME",
+    "build": "cp component.fixed.js node_modules/shortcut-preview/dist/components/ActionBlock/component.js && react-scripts build && rm -rf docs && mv build docs && echo \"preview.scpl.dev\" > docs/CNAME",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
